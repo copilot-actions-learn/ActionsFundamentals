@@ -16,8 +16,8 @@ on:
    inputs:
      environment:
        description: 'Environment to deploy to'
-       type: envrionemnt
-       required: ture
+       type: environment
+       required: true
   
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -65,5 +65,8 @@ jobs:
     environment:
       name: Production
       url: https://writeabout.net
-    if: github.event.inputs.environment == 'Production'
+    if: github.event.inputs.environment == 'Configure Production'
+    steps:
+      - run: |
+          echo: "In Production"
           
