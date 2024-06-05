@@ -13,6 +13,11 @@ on:
     - cron: '15 6 * * 0'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+   inputs:
+     environment:
+       description: 'Environment to deploy to'
+       type: envrionemnt
+       required: ture
   
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -34,5 +39,31 @@ jobs:
 
       - name: List files in repository
         run: |
-          echo "The repository ${{ github.repository }} contains "
+          echo "The repository ${{ github.repository }} contains the following files"
+
+  Test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    needs: Build
+    environment: Test
+    steps:
+      - run: echo "testing..."
+
+  Load-Test:
+    runs-on: ubuntu-lates
+    if: github.event_name == 'workflow_dispatch'
+    needs: Build
+    environment: Load-Test
+    steps:
+      - run: |
+          echo: " Testing..."
+          sleep 15
+
+  Production:
+    runs-on: ubuntu-lates
+    needs: ['Test', 'Load-Test']
+    environment:
+      name: Production
+      url: https://writeabout.net
+    if: github.event.inputs.environment == 'Production'
           
