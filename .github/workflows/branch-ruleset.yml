@@ -1,0 +1,25 @@
+name: Branch protection rules
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  branch_protection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Add more steps as needed for your specific rules, such as enforcing branch protection rules.
+      # Example:
+      - name: Branch protection for main branch
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: |
+          # Replace with your commands to enforce protection rules
+          # Example:
+          # - git branch --set-upstream-to=origin/main main
+          # - git branch --set-upstream-to=origin/master master
+          # - git push --set-upstream origin main
+          # - git push --set-upstream origin master
